@@ -14,12 +14,13 @@ const ChatContainer = ({ selectedUser, setselectedUser }: selecteduserType) => {
 
     useEffect(() => {
         if (scrollEnd.current) {
-            scrollEnd.current.scrollIntoView({behavior: 'smooth'})
+            // this will scroll this image upto this div
+            scrollEnd.current.scrollIntoView({ behavior: 'smooth' })
         }
     }, [])
 
     return selectedUser ? (
-        <div className='h-full overflow-scroll relative backdrop-blur-lg'>
+        <div className='h-full overflow-scroll relative backdrop-blur-lg p-2 flex flex-col '>
             {/* Header */}
             <div className='flex items-center gap-3 py-3 mx-4 border-b border-stone-500'>
                 <img src={assets.profile_martin} alt="profile_martin" className='w-8 rounded-full' />
@@ -32,26 +33,35 @@ const ChatContainer = ({ selectedUser, setselectedUser }: selecteduserType) => {
             </div>
 
             {/* Chat Area */}
-            <div className='flex flex-col h-[calc(100% - 120px)] overflow-y-scroll p-3 pb-6 bg-red-50'>
+            <div className='flex flex-col h-[calc(100% - 120px)] overflow-y-scroll p-3'>
                 {messagesDummyData.map((msg, index) =>
-                    <div key={index} className={`flex items-end gap-2 justify-end ${msg.senderId !== '680f50aaf10f3cd28382ecf9' && 'flex-row-reverse'}`}>
+                    <div key={index} className={`flex items-end gap-2 justify-end ${msg.senderId !== '680f50e4f10f3cd28382ecf9' && 'flex-row-reverse'}`}>
                         {/* if image display image or display text */}
-                        {msg.senderId !== '680f50aaf10f3cd28382ecf9'}
                         {msg.image ? (<img src={msg.image} className='max-w-[230px] border border-gray-700 rounded-lg overflow-hidden mb-8' />
-                        ) : <p className={`p-2 max-w-[200px] md:text-sm font-light rounded-lg mb-8 break-all bg-violet-500/30 text-white ${msg.senderId === '680f50aaf10f3cd28382ecf9' ? 'rounded-br-none' : 'rounded-bl-none'}`}>{msg.text}</p>}
+                        ) : <p className={`p-2 max-w-[200px] md:text-sm font-light rounded-lg mb-8 break-all bg-violet-500/30 text-white ${msg.senderId === '680f50aaf10f3cd28382ecf9' ? 'rounded-br-none' : 'rounded-bl-none'}`}>{msg.senderId}</p>}
 
                         {/* display the user logo */}
                         <div className="text-center text-xs">
-                            <img src={msg.senderId === '680f50aaf10f3cd28382ecf9' ? assets.avatar_icon : assets.profile_martin} alt="avatar" className='w-7 rounded-full' />
+                            <img src={msg.senderId !== '680f50e4f10f3cd28382ecf9' ? assets.profile_martin : assets.avatar_icon} alt="avatar" className='w-7 rounded-full' />
                             <p className='text-gray-500'>
                                 {formatMessageTime(msg.createdAt)}
                             </p>
                         </div>
                     </div>
                 )}
-                <div ref={scrollEnd}>
-                    
+
+                <div ref={scrollEnd}>{/*just to autoscroll upto here*/}</div>
+            </div>
+            {/* bottom area message sending area */}
+            <div className='bottom-0 left-0 right-0 flex items-center gap-3 top-0 mb-2'>
+                <div className='flex-1 flex items-center bg-gray-100/12 px-3 rounded-full'>
+                    <input type="text" placeholder='send a message' className='flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400' />
+                    <input type="file" id='image' accept='image/png, image/jpeg' hidden />
+                    <label htmlFor='image'>
+                        <img src={assets.gallery_icon} alt="gallery-icon" className='w-4 mr-2 cursor-pointer' />
+                    </label>
                 </div>
+                <img src={assets.send_button} alt='send_button' className='w-8 cursor-pointer' />
             </div>
         </div>
     ) : (
