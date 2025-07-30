@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import assets from '../assets/assets';
 
@@ -13,7 +13,7 @@ const ProfilePage = () => {
         if (file) setselectedImg(file);
     }
 
-    const handlesumbit = async (e) => {
+    const handlesumbit = async (e: any) => {
         e.preventDefault();
         navigate('/');
     }

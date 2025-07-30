@@ -5,7 +5,7 @@ import RightSidebar from '../components/RightSidebar'
 import type { userType } from '../types'
 
 const HomePage = () => {
-    const [selectedUser, setselectedUser] = useState<userType>();
+    const [selectedUser, setselectedUser] = useState<userType | null>();
 
     return (
         <div className='border w-full h-screen sm:px-[15%] sm:py-[5%]'>
