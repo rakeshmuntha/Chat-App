@@ -3,13 +3,15 @@ import cors from 'cors';
 import 'dotenv/config'
 import http from 'http'
 import { connectDb } from './lib/db';
+import userRouter from './routes/userRoutes';
 
 const app = express();
 const PORT = process.env.port || 3001;
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 app.use(express.json({limit: "4mb"}));
 app.use(cors());
+app.use("/api/auth", userRouter);
 
 connectDb();
 
