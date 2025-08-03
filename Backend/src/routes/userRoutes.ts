@@ -1,4 +1,3 @@
-import { sign } from 'crypto';
 import express from 'express'
 import { checkAuth, login, signup, updateProfile } from '../controller/userController';
 import { protectRoute } from '../middleware/auth';

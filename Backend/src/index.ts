@@ -4,6 +4,7 @@ import 'dotenv/config'
 import http from 'http'
 import { connectDb } from './lib/db';
 import userRouter from './routes/userRoutes';
+import messageRouter from './routes/messageRoutes';
 
 const app = express();
 const PORT = process.env.port || 3001;
@@ -11,7 +12,10 @@ const PORT = process.env.port || 3001;
 
 app.use(express.json({limit: "4mb"}));
 app.use(cors());
+
+// Routes
 app.use("/api/auth", userRouter);
+app.use("/api/messages", messageRouter);
 
 connectDb();
 

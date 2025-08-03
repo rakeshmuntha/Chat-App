@@ -57,7 +57,7 @@ interface reqUser extends Request {
     user?: userType & Document
 }
 
-// Check if user is authenticated
+// Check if user is authenticated http://localhost:3001/api/auth/check
 export const checkAuth = async (req: reqUser, res: Response) => {
     res.json({ success: true, user: req.user });
 }
