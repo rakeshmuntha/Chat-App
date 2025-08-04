@@ -3,6 +3,8 @@ import { userType, messageType } from "../types/userType";
 import { Document } from "mongoose";
 import User from "../model/User";
 import Message from "../model/Message";
+import cloudinary from "../lib/cloudinary";
+import { io, userSoketMap } from "..";
 
 interface reqUser extends Request {
     user?: userType & Document
@@ -68,4 +70,36 @@ export const markMessagesAsSeen = async (req: reqUser, res: Response) => {
         console.log(error.message);
         res.status(400).json({ success: false, message: error.message });
     }
+}
+
+// send message to selected user
+export const sendMessage = async (req: reqUser, res: Response) => {
+    try {
+        const {text, image} = req.body;
+        const receiverId = req.params.id;
+        const senderId = req.user?._id;
+
+        let imageUrl;
+        if(image) {
+            const uploadResponse = await cloudinary.uploader.upload(image);
+            imageUrl = uploadResponse.secure_url;
+        }
+        const newMessage: messageType = await Message.create({
+            senderId,
+            receiverId,
+            text,
+            image: imageUrl
+        })
+
+        // Emit the new message to the receivers soket
+        const receiverSocketId = userSoketMap[receiverId];
+        if(receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
+
+        res.json({success: true, newMessage});
+    } 
+    catch (error) {
+        
+    }   
 }
