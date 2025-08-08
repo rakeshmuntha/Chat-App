@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import 'dotenv/config'
-import http from 'http'
+import 'dotenv/config';
+import http from 'http';
 import { connectDb } from './lib/db';
 import userRouter from './routes/userRoutes';
 import messageRouter from './routes/messageRoutes';

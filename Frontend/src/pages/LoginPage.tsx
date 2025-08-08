@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import assets from '../assets/assets'
+import { AuthContext } from '../../context/AuthContext';
 
 const LoginPage = () => {
     const [currState, setcurrState] = useState("Sign up");
@@ -9,13 +10,19 @@ const LoginPage = () => {
     const [bio, setbio] = useState('');
     const [isDataSubmitted, setisDataSubmitted] = useState(false);
 
-    const onSubmitHandler = () => {
+    const context = useContext(AuthContext);
+    if (!context) throw new Error("AuthContext is missing. Make sure App is wrapped in AuthProvider.");
+    const { login } = context;
+
+    const onSubmitHandler = (event: any) => {
         event?.preventDefault();
 
         if(currState === 'Sign up' && !isDataSubmitted) {
             setisDataSubmitted(true);
             return;
         }
+
+        login(currState === 'Sign up' ? 'signup' : 'login', {fullName, email, password, bio});
     }
 
     return (
