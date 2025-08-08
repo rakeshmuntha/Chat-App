@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useContext } from 'react'
 import Sidebar from '../components/Sidebar'
 import ChatContainer from '../components/ChatContainer'
 import RightSidebar from '../components/RightSidebar'
-import type { userType } from '../types'
+import { ChatContext } from '../../context/ChatContext'
 
 const HomePage = () => {
-    const [selectedUser, setselectedUser] = useState<userType | null>();
+
+    const Chatcontext = useContext(ChatContext);
+    if (!Chatcontext) throw new Error("ChatContext is missing. Make sure App is wrapped in AuthProvider.");
+    const { selectedUser } = Chatcontext;
 
     return (
         <div className='border w-full h-screen sm:px-[15%] sm:py-[5%]'>
