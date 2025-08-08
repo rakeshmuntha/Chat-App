@@ -10,9 +10,7 @@ import { AuthContext } from '../context/AuthContext'
 
 function App() {
     const context = useContext(AuthContext);
-
     if (!context) throw new Error("AuthContext is missing. Make sure App is wrapped in AuthProvider.");
-
     const { authUser } = context;
 
     return (
