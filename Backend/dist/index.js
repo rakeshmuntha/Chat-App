@@ -44,12 +44,12 @@ app.get('/', (req, res) => {
     res.json('Backend running!');
 });
 // in local host
-if (process.env.NODE_ENV !== "production") {
-    const PORT = process.env.PORT || 3001;
-    server.listen(PORT, () => {
-        console.log(`Server started at http://localhost:${PORT}`);
-    });
-}
+
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+    console.log(`Server started at http://localhost:${PORT}`);
+});
+
 // for vercel
 exports.default = server;
 // • npm run dev – starts dev server with reload
