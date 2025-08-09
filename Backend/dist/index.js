@@ -44,14 +44,12 @@ app.get('/', (req, res) => {
     res.json('Backend running!');
 });
 // in local host
-
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
     console.log(`Server started at http://localhost:${PORT}`);
 });
-
 // for vercel
-exports.default = server;
+// else export default server;
 // • npm run dev – starts dev server with reload
 // • npm run build – compiles TypeScript to JS
 // • npm start – runs compiled backend

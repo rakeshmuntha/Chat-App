@@ -49,17 +49,15 @@ app.get('/', (req, res) => {
 });
 
 // in local host
-if (process.env.NODE_ENV !== "production") {
-    const PORT = process.env.port || 3001;
+
+    const PORT = process.env.PORT || 3001;
     server.listen(PORT, () => {
         console.log(`Server started at http://localhost:${PORT}`);
     });
-}
+
 
 // for vercel
-export default server;
-
-
+// else export default server;
 
 // • npm run dev – starts dev server with reload
 // • npm run build – compiles TypeScript to JS
