@@ -22,9 +22,10 @@ const ChatContainer = () => {
     // Handle sending a message
     const handleSendMessage = async (e: any) => {
         e.preventDefault();
-        if(input.trim() === "") return null;
+        const text = input.trim();
+        if(text === "") return null;
         setinput("");
-        await sendMessage({text: input.trim()});
+        await sendMessage({text});
     }
 
     // Handle sending a image
