@@ -8,12 +8,11 @@ import messageRouter from './routes/messageRoutes';
 import { Server } from 'socket.io';
 
 const app = express();
-const PORT = process.env.port || 3001;
 const server = http.createServer(app);
 
 // initialize soket.io server 
 export const io = new Server(server, {
-    cors: {origin: "*"}
+    cors: { origin: "*" }
 })
 
 // store online users
@@ -23,7 +22,7 @@ export const userSoketMap: any = {}; // {userId : soketId}
 io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
     console.log(`user connected ${userId}`);
-    if(userId) userSoketMap[userId as string] = socket.id;
+    if (userId) userSoketMap[userId as string] = socket.id;
 
     // emit online users to all connected client
     io.emit("getOnlineUsers", Object.keys(userSoketMap));
@@ -49,9 +48,18 @@ app.get('/', (req, res) => {
     res.json('Backend running!');
 });
 
-server.listen(PORT, () => {
-    console.log(`Server started at http://localhost:${PORT}`);
-});
+// in local host
+if (process.env.NODE_ENV !== "production") {
+    const PORT = process.env.port || 3001;
+    server.listen(PORT, () => {
+        console.log(`Server started at http://localhost:${PORT}`);
+    });
+}
+
+// for vercel
+export default server;
+
+
 
 // • npm run dev – starts dev server with reload
 // • npm run build – compiles TypeScript to JS
