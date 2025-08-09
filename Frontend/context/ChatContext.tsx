@@ -13,7 +13,10 @@ interface ChatContextType {
     unseenMessages: any;
     setunseenMessages: any;
     getMessages: (userId: string) => void;
+    toggleRightSideBar: () => void;
+    selectRightSidebar: boolean;
 }
+
 
 export const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
@@ -27,6 +30,13 @@ export const ChatProvider = ({ children }: any) => {
     const [users, setusers] = useState<any>([]);
     const [selectedUser, setselectedUser] = useState<any>(null);
     const [unseenMessages, setunseenMessages] = useState<any>({});
+    const [selectRightSidebar, setselectRightSidebar] = useState(false);
+
+    // function to toggle rightsideBar
+    const toggleRightSideBar = () => {
+        if(selectRightSidebar) setselectRightSidebar(false);
+        else setselectRightSidebar(true);
+    }
 
     // function to get all users for sidebar
     const getUsers = async () => {
@@ -96,7 +106,7 @@ export const ChatProvider = ({ children }: any) => {
     }, [socket, selectedUser])
 
     const value = {
-        messages, users, selectedUser, getUsers, setmessages, sendMessage, setselectedUser, unseenMessages, setunseenMessages, getMessages
+        messages, users, selectedUser, getUsers, setmessages, sendMessage, setselectedUser, unseenMessages, setunseenMessages, getMessages, toggleRightSideBar, selectRightSidebar
     }
 
     return (

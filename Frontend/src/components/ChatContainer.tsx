@@ -10,7 +10,7 @@ const ChatContainer = () => {
     const scrollEnd = useRef<HTMLDivElement | null>(null);
     const Chatcontext = useContext(ChatContext);
     if (!Chatcontext) throw new Error("ChatContext is missing. Make sure App is wrapped in AuthProvider.");
-    const { messages, sendMessage, getMessages, selectedUser, setselectedUser } = Chatcontext;
+    const { messages, sendMessage, getMessages, selectedUser, setselectedUser, toggleRightSideBar } = Chatcontext;
 
 
     const context = useContext(AuthContext);
@@ -61,10 +61,10 @@ const ChatContainer = () => {
                 <img src={selectedUser.profilePic || assets.avatar_icon} alt="profile_martin" className='w-8 h-8 rounded-full' />
                 <p className='flex-1 text-lg text-white flex items-center gap-2'>
                     {selectedUser.fullName}
-                    {onlineUsers.includes(selectedUser._id) && <span className='w-2 h-2 rounded-full bg-green-500'></span>}
+                    {onlineUsers && onlineUsers.includes(selectedUser._id) && <span className='w-2 h-2 rounded-full bg-green-500'></span>}
                 </p>
                 <img onClick={() => setselectedUser(null)} src={assets.arrow_icon} alt="arrow_icon" className='md:hidden max-w-7' />
-                <img src={assets.help_icon} alt="help_icon" className='max-md:hidden max-w-5' />
+                <img src={assets.help_icon} alt="help_icon" className='max-md:hidden max-w-5 cursor-pointer' onClick={() => toggleRightSideBar()}/>
             </div>
 
             {/* Chat Area */}
