@@ -18,7 +18,6 @@ export type assetsType = {
     menu_icon: string;
     arrow_icon: string;
     code: string;
-    bgImage: string;
     profile_martin: string;
 }
 
