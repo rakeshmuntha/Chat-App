@@ -13,7 +13,6 @@ const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const messageRoutes_1 = __importDefault(require("./routes/messageRoutes"));
 const socket_io_1 = require("socket.io");
 const app = (0, express_1.default)();
-const PORT = process.env.port || 3001;
 const server = http_1.default.createServer(app);
 // initialize soket.io server 
 exports.io = new socket_io_1.Server(server, {
@@ -44,9 +43,15 @@ app.use("/api/messages", messageRoutes_1.default);
 app.get('/', (req, res) => {
     res.json('Backend running!');
 });
-server.listen(PORT, () => {
-    console.log(`Server started at http://localhost:${PORT}`);
-});
+// in local host
+if (process.env.NODE_ENV !== "production") {
+    const PORT = process.env.port || 3001;
+    server.listen(PORT, () => {
+        console.log(`Server started at http://localhost:${PORT}`);
+    });
+}
+// for vercel
+exports.default = server;
 // • npm run dev – starts dev server with reload
 // • npm run build – compiles TypeScript to JS
 // • npm start – runs compiled backend
