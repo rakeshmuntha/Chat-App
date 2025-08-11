@@ -4,14 +4,25 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import { Toaster } from 'react-hot-toast'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import axios from 'axios'
 
 
 function App() {
     const context = useContext(AuthContext);
     if (!context) throw new Error("AuthContext is missing. Make sure App is wrapped in AuthProvider.");
     const { authUser } = context;
+
+    const wakeBackend = async () => {
+        const data = await axios.get("/");
+        console.log(data.data);
+    }
+
+    useEffect(() => {
+        wakeBackend();
+    }, [])
+    
 
     return (
         <div className='bg-[url("/bgImage.svg")] bg-contain'>

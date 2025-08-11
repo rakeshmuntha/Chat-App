@@ -17,12 +17,12 @@ const LoginPage = () => {
     const onSubmitHandler = (event: any) => {
         event?.preventDefault();
 
-        if(currState === 'Sign up' && !isDataSubmitted) {
+        if (currState === 'Sign up' && !isDataSubmitted) {
             setisDataSubmitted(true);
             return;
         }
 
-        login(currState === 'Sign up' ? 'signup' : 'login', {fullName, email, password, bio});
+        login(currState === 'Sign up' ? 'signup' : 'login', { fullName, email, password, bio });
     }
 
     return (
@@ -54,10 +54,10 @@ const LoginPage = () => {
                     <textarea rows={4} className=' p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500' placeholder='Please provide a short bio...' onChange={(e) => setbio(e.target.value)} value={bio}></textarea>
                 )}
 
-                <button type='submit' className='py-3 bg-gradient-to-r from-purple-400 to-violet-600 text-white rounded-md cursor-pointer'>{currState === 'Sign up' ? 'Create Account' : 'Login Now'}</button>
+                <button type='submit' id='signInButton' className='py-3 bg-gradient-to-r from-purple-400 to-violet-600 text-white rounded-md cursor-pointer'>{currState === 'Sign up' ? 'Create Account' : 'Login Now'}</button>
 
                 <div className='flex items-center gap-2 text-sm text-gray-500'>
-                    <input type="checkbox" />
+                    <input type="checkbox" required />
                     <p>Agree to the terms of use & privacy policy</p>
                 </div>
 
