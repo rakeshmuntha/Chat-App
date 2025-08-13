@@ -14,6 +14,7 @@ export interface AuthContextType {
     login: (state: any, credentials: any) => void;
     logout: () => void;
     updateProfile: (body: any) => void;
+    currState: string | null;
 }
 export interface AuthUserType {
     _id: string;
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }: any) => {
     const [authUser, setauthUser] = useState<AuthUserType | null>(null);
     const [onlineUsers, setonlineUsers] = useState<any>([]);
     const [socket, setsocket] = useState<Socket | null>(null);
+    const [currState, setcurrState] = useState(null);
 
     // check if the user is authenticated and if so, set the user data and connect the socket
     const checkAuth = async () => {
@@ -45,7 +47,12 @@ export const AuthProvider = ({ children }: any) => {
             }
         }
         catch (error: any) {
-            toast.error(error.message)
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            }
+            else {
+                toast.error(error.message);
+            }
         }
     }
 
@@ -68,19 +75,32 @@ export const AuthProvider = ({ children }: any) => {
     // login function to handle user authentication and socket connection
     const login = async (state: any, credentials: any) => {
         try {
-            const { data } = await axios.post(`/api/auth/${state}`, credentials);
+            const promise = axios.post(`/api/auth/${state}`, credentials);
+
+            toast.promise(promise, {
+                loading: `${state === 'login'? 'LoggingIn' : 'SigningIn'}... Please wait`,
+                success: `${state === 'login'? 'Login' : 'Signup'} Successful`,
+            });
+
+            const { data } = await promise;
+
             if (data.success) {
+                setcurrState(state);
                 setauthUser(data.userData);
                 connectSocket(data.userData);
                 axios.defaults.headers.common["token"] = data.token;
                 settoken(data.token);
-                localStorage.setItem("token", data.token);
-                toast.success(data.message);
+                localStorage.setItem("token", data.token);            
             }
             else toast.error(data.message);
         }
         catch (error: any) {
-            toast.error(error.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            }
+            else {
+                toast.error(error.message);
+            }
         }
     }
 
@@ -98,10 +118,15 @@ export const AuthProvider = ({ children }: any) => {
     // update profile function to handle user profile updates
     const updateProfile = async (body: any) => {
         try {
-            const { data } = await axios.put("/api/auth/update-profile", body);
+            const promise = axios.put("/api/auth/update-profile", body);
+            toast.promise(promise, {
+                loading: 'Updating...',
+                success: `Profile updated successfully`,
+            });
+
+            const { data } = await promise;
             if (data.success) {
                 setauthUser(data.user);
-                toast.success("Profile updated successfully");
             }
         }
         catch (error: any) {
@@ -117,7 +142,7 @@ export const AuthProvider = ({ children }: any) => {
     }, [])
 
     const value = {
-        axios, authUser, onlineUsers, socket, login, logout, updateProfile
+        axios, authUser, onlineUsers, socket, login, logout, updateProfile, currState
     }
 
     return (

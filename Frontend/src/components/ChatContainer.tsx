@@ -19,33 +19,43 @@ const ChatContainer = () => {
 
     const [input, setinput] = useState("");
 
+    const textInput = document.getElementById("myInput");
+
+    // Focus the input whenever any key is pressed
+    window.addEventListener("keydown", (event) => {
+        // Prevent focusing when special keys like Tab, Shift, etc., are pressed
+        if (event.key.length === 1 || event.key === "Backspace") {
+            if(textInput) textInput.focus();
+        }
+    });
+
     // Handle sending a message
     const handleSendMessage = async (e: any) => {
         e.preventDefault();
         const text = input.trim();
-        if(text === "") return null;
+        if (text === "") return null;
         setinput("");
-        await sendMessage({text});
+        await sendMessage({ text });
     }
 
     // Handle sending a image
     const handleSendImage = async (e: any) => {
         const file = e.target.files[0];
-        if(!file || !file.type.startsWith("image/")) {
+        if (!file || !file.type.startsWith("image/")) {
             toast.error("select an image file");
             return;
         }
         const reader = new FileReader();
 
         reader.onloadend = async () => {
-            await sendMessage({image: reader.result});
+            await sendMessage({ image: reader.result });
             e.target.value = "";
         }
         reader.readAsDataURL(file);
     }
 
     useEffect(() => {
-        if(selectedUser) getMessages(selectedUser._id);
+        if (selectedUser) getMessages(selectedUser._id);
     }, [selectedUser])
 
     useEffect(() => {
@@ -59,13 +69,13 @@ const ChatContainer = () => {
         <div className='h-full overflow-scroll relative backdrop-blur-lg p-2 flex flex-col '>
             {/* Header */}
             <div className='flex items-center gap-3 py-3 mx-4 border-b border-stone-500'>
-                <img src={selectedUser.profilePic || assets.avatar_icon} alt="profile_martin" className='w-8 h-8 rounded-full' />
-                <p className='flex-1 text-lg text-white flex items-center gap-2'>
+                <img src={selectedUser.profilePic || assets.avatar_icon} alt="profile_martin" className='w-8 h-8 rounded-full cursor-pointer' onClick={() => toggleRightSideBar()} />
+                <p className='flex-1 text-lg text-white flex items-center gap-2 cursor-pointer' onClick={() => toggleRightSideBar()}>
                     {selectedUser.fullName}
                     {onlineUsers && onlineUsers.includes(selectedUser._id) && <span className='w-2 h-2 rounded-full bg-green-500'></span>}
                 </p>
                 <img onClick={() => setselectedUser(null)} src={assets.arrow_icon} alt="arrow_icon" className='md:hidden max-w-7' />
-                <img src={assets.help_icon} alt="help_icon" className='max-md:hidden max-w-5 cursor-pointer' onClick={() => toggleRightSideBar()}/>
+                {/* <img src={assets.help_icon} alt="help_icon" className='max-md:hidden max-w-5 cursor-pointer' onClick={() => toggleRightSideBar()}/> */}
             </div>
 
             {/* Chat Area */}
@@ -90,9 +100,10 @@ const ChatContainer = () => {
             {/* bottom area message sending area */}
             <div className='absolute bottom-0 left-0 right-0 flex items-center gap-3 p-3 bg-blend-darken'>
                 <div className='flex-1 flex items-center bg-gray-100/12 px-3 rounded-full'>
-                    <input onChange={(e) => setinput(e.target.value)} value={input} onKeyDown={(e) => e.key === 'Enter' ? handleSendMessage(e) : null} type="text" placeholder='send a message' className='flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400' />
+                    <input id='myInput' onChange={(e) => setinput(e.target.value)} value={input} onKeyDown={(e) => e.key === 'Enter' ? handleSendMessage(e) : null} type="text" placeholder='send a message' className='flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400' />
                     <input onChange={handleSendImage} type="file" id='image' accept='image/png, image/jpeg' hidden />
                     <label htmlFor='image'>
+
                         <img src={assets.gallery_icon} alt="gallery-icon" className='w-4 mr-2 cursor-pointer' />
                     </label>
                 </div>

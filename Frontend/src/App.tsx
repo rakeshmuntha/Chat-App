@@ -12,7 +12,8 @@ import axios from 'axios'
 function App() {
     const context = useContext(AuthContext);
     if (!context) throw new Error("AuthContext is missing. Make sure App is wrapped in AuthProvider.");
-    const { authUser } = context;
+    const { authUser, currState } = context;
+    console.log(currState);
 
     const wakeBackend = async () => {
         const data = await axios.get("/");
@@ -29,7 +30,7 @@ function App() {
             <Toaster />
             <Routes>
                 <Route path='/' element={authUser ? <HomePage /> : <Navigate to={'/login'}/>} />
-                <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={'/'}/>} />
+                <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={currState === 'signup' ? '/profile' : '/'}/>} />
                 <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to={'/login'}/>} />
             </Routes>
         </div>
