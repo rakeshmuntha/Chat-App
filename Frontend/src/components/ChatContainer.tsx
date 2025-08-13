@@ -83,7 +83,7 @@ const ChatContainer = () => {
                 {messages.map((msg: any, index: number) =>
                     <div key={index} className={`flex items-end gap-2 justify-end ${msg.senderId !== authUser?._id && 'flex-row-reverse'}`}>
                         {/* if image display image or display text */}
-                        {msg.image ? (<img src={msg.image} className='max-w-[230px] border border-gray-700 rounded-lg overflow-hidden mb-8' />
+                        {msg.image ? (<img src={msg.image} onClick={() => window.open(msg.image)} className='max-w-[230px] border border-gray-700 rounded-lg overflow-hidden mb-8 cursor-pointer' />
                         ) : <p className={`p-2 max-w-[200px] md:text-sm font-light rounded-lg mb-8 break-all bg-violet-500/30 text-white ${msg.senderId === authUser?._id ? 'rounded-br-none' : 'rounded-bl-none'}`}>{msg.text}</p>}
                         {/* display the user logo */}
                         <div className="text-center text-xs">
@@ -103,7 +103,6 @@ const ChatContainer = () => {
                     <input id='myInput' onChange={(e) => setinput(e.target.value)} value={input} onKeyDown={(e) => e.key === 'Enter' ? handleSendMessage(e) : null} type="text" placeholder='send a message' className='flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400' />
                     <input onChange={handleSendImage} type="file" id='image' accept='image/png, image/jpeg' hidden />
                     <label htmlFor='image'>
-
                         <img src={assets.gallery_icon} alt="gallery-icon" className='w-4 mr-2 cursor-pointer' />
                     </label>
                 </div>
