@@ -91,7 +91,7 @@ const ChatContainer = () => {
             </div>
 
             {/* Chat Area */}
-            <div className='flex flex-col h-[calc(100% - 120px)] overflow-y-scroll p-3 mb-16'>
+            <div className='flex flex-col h-[calc(100% - 120px)] overflow-y-scroll p-3 mb-14'>
                 {messages.map((msg: any, index: number) =>
                     <div key={index} className={`flex items-end gap-2 justify-end ${msg.senderId !== authUser?._id && 'flex-row-reverse'}`}>
                         {/* if image display image or display text */}
@@ -111,7 +111,7 @@ const ChatContainer = () => {
             </div>
 
             {/* bottom area message sending area */}
-            <div className='absolute bottom-0 left-0 right-0 flex items-center gap-3 p-3 bg-blend-darken border-t mx-3 border-stone-500'>
+            <div className='absolute bottom-0 left-0 right-0 flex items-center gap-3 p-3 bg-blend-darken'>
                 <div className='flex-1 flex items-center bg-gray-100/12 px-3 rounded-full'>
                     <input id='myInput' onChange={(e) => setinput(e.target.value)} value={input} onKeyDown={(e) => e.key === 'Enter' ? handleSendMessage(e) : null} type="text" placeholder='Send a message' className='flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400' />
                     <input onChange={handleSendImage} type="file" id='image' accept='image/png, image/jpeg' hidden />
