@@ -44,7 +44,7 @@ const LoginPage = () => {
                 onSubmit={onSubmitHandler}
                 className="border-2 bg-white/8 text-white border-gray-500 p-6 sm:p-9 w-full sm:w-96 flex flex-col gap-6 rounded-lg shadow-lg"
             >
-                <h2 className="font-medium text-2xl sm:text-3xl flex justify-between items-center">
+                <h2 className="font-bold text-2xl sm:text-3xl flex justify-between items-center">
                     {currState}
 
                     {isDataSubmitted && (
@@ -91,9 +91,11 @@ const LoginPage = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="text-sm absolute inset-y-0 right-2 flex items-center text-violet-400"
+                                className="text-sm absolute inset-y-0 right-2 flex items-center text-white-400"
                             >
-                                {showPassword ? "Hide" : "Show"}
+                                {showPassword ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-eye-off size-5 text-base-content/40"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path><path d="m2 2 20 20"></path></svg>
+                                    : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-eye size-5 text-base-content/40"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                }
                             </button>
                         </div>
                     </>
@@ -114,7 +116,7 @@ const LoginPage = () => {
                 <button
                     type="submit"
                     id="signInButton"
-                    className="py-3 bg-gradient-to-r from-purple-400 to-violet-600 text-white rounded-md cursor-pointer"
+                    className="py-3 bg-white hover:bg-gray-100 text-black rounded-md cursor-pointer"
                 >
                     {currState === 'Sign up' ? 'Create Account' : 'Login Now'}
                 </button>

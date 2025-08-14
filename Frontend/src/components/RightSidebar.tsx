@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/AuthContext';
 const RightSidebar = () => {
     const Chatcontext = useContext(ChatContext);
     if (!Chatcontext) throw new Error("ChatContext is missing. Make sure App is wrapped in AuthProvider.");
-    const { selectedUser, messages } = Chatcontext;
+    const { selectedUser, messages, toggleRightSideBar } = Chatcontext;
 
     const context = useContext(AuthContext);
     if (!context) throw new Error("AuthContext is missing. Make sure App is wrapped in AuthProvider.");
@@ -16,13 +16,19 @@ const RightSidebar = () => {
     // Get all the images from the messages and set them to state
     useEffect(() => {
         setmsgImages(
-        messages.filter((msg: any) => msg.image).map((msg : any) => msg.image));
+            messages.filter((msg: any) => msg.image).map((msg: any) => msg.image));
     }, [messages])
 
     return selectedUser && (
         // user profile
         <div className={`bg-[#8185B2]/10 text-white w-full relative overflow-y-scroll ${selectedUser ? 'max-md:hidden' : 'hidden'}`}>
-            <div className='pt-16 flex flex-col items-center gap-2 text-xs font-light mx-auto'>
+            <div className='flex justify-end m-7'>
+                <svg onClick={() => toggleRightSideBar()} className="w-8 h-8 cursor-pointer hover:bg-gray-600 rounded-full p-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
+                </svg>
+            </div>
+
+            <div className='flex flex-col items-center gap-2 text-xs font-light mx-auto'>
                 <img src={selectedUser?.profilePic || assets.avatar_icon} onClick={() => window.open(selectedUser?.profilePic || assets.avatar_icon)} alt="profilepic" className='w-20 aspect-[1/1] rounded-full cursor-pointer' />
 
                 <h1 className='px-11 text-2xl font-medium mx-auto flex items-center gap-2'>
@@ -30,7 +36,7 @@ const RightSidebar = () => {
                     {selectedUser?.fullName}
                 </h1>
 
-                <p className='text-center text-base opacity-90'>{selectedUser?.bio}</p>
+                <p className='text-center text-sm opacity-90'>{selectedUser?.bio}</p>
             </div>
 
             <hr className='border-[#ffffff50] my-4' />

@@ -40,8 +40,8 @@ const ProfilePage = () => {
                 <form onSubmit={handlesumbit} className='flex flex-col gap-5 p-11 flex-1'>
                     <div className='flex justify-between items-center'>
                         <h3 className='text-2xl'>Profile details</h3>
-                        <svg data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className='w-6 h-6 cursor-pointer' onClick={() => navigate('/login')}>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"></path>
+                        <svg onClick={() => navigate('/login')} className="w-8 h-8 cursor-pointer hover:bg-gray-600 rounded-full p-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
                         </svg>
                     </div>
                     <label htmlFor="avatar" className='flex items-center gap-3 cursor-pointer px-3 py-2 rounded-md border border-white/20 hover:border-white/40 hover:bg-white/5 transition'>
