@@ -44,16 +44,13 @@ const LoginPage = () => {
                 onSubmit={onSubmitHandler}
                 className="border-2 bg-white/8 text-white border-gray-500 p-6 sm:p-9 w-full sm:w-96 flex flex-col gap-6 rounded-lg shadow-lg"
             >
-                <h2 className="font-bold text-2xl sm:text-3xl flex justify-between items-center">
+                <h2 className="font-bold text-gray-300 text-2xl sm:text-3xl flex justify-between items-center">
                     {currState}
 
                     {isDataSubmitted && (
-                        <img
-                            src={assets.arrow_icon}
-                            alt="arrow"
-                            className="w-5 cursor-pointer"
-                            onClick={() => setisDataSubmitted(false)}
-                        />
+                        <svg onClick={() => setisDataSubmitted(false)} className="w-8 h-8 cursor-pointer hover:bg-gray-600 rounded-full p-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
+                        </svg>
                     )}
                 </h2>
 
@@ -116,8 +113,7 @@ const LoginPage = () => {
                 <button
                     type="submit"
                     id="signInButton"
-                    className="py-3 bg-white hover:bg-gray-100 text-black rounded-md cursor-pointer"
-                >
+                    className="py-3 bg-gradient-to-r from-purple-400 to-violet-600 text-white rounded-md cursor-pointer">
                     {currState === 'Sign up' ? 'Create Account' : 'Login Now'}
                 </button>
 
