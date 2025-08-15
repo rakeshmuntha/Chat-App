@@ -1,12 +1,11 @@
 import { useContext, useState } from 'react'
-import assets from '../assets/assets'
 import { AuthContext } from '../../context/AuthContext';
 
 const LoginPage = () => {
     const [currState, setcurrState] = useState("Login");
-    const [fullName, setfullName] = useState('rakk');
-    const [email, setemail] = useState('rakk@gmail.com');
-    const [password, setpassword] = useState('rakk');
+    const [fullName, setfullName] = useState('');
+    const [email, setemail] = useState('');
+    const [password, setpassword] = useState('');
     const [bio, setbio] = useState('');
     const [isDataSubmitted, setisDataSubmitted] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -33,18 +32,20 @@ const LoginPage = () => {
         <div className="min-h-screen bg-cover bg-center flex items-center justify-center gap-8 sm:justify-evenly flex-col sm:flex-row backdrop-blur-2xl px-4 sm:px-8">
 
             {/* left */}
-            <img
-                src={assets.logo_big}
-                alt=""
-                className="w-40 sm:w-60 md:w-70 max-w-full"
-            />
-
+            <div className='flex items-center flex-col gap-4'>
+                {/* logo dude */}
+                <div className='rounded-4xl size-45 flex items-center justify-center bg-[#728bb5]/10 hover:bg-[#728bb5]/20'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-square w-35 sm:w-60 md:w-70 max-w-full h-35 text-[#edecec]"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                </div>
+                <h2 className='text-[#c88f33] font-sans font-bold text-5xl logo'>Blink Chat</h2>
+            </div>
+                
             {/* right */}
             <form
                 onSubmit={onSubmitHandler}
-                className="border-2 bg-white/8 text-white border-gray-500 p-6 sm:p-9 w-full sm:w-96 flex flex-col gap-6 rounded-lg shadow-lg"
+                className="border-1 bg-white/4 text-white border-gray-500 p-6 sm:p-9 w-full sm:w-96 flex flex-col gap-6 rounded-lg shadow-lg"
             >
-                <h2 className="font-bold text-gray-300 text-2xl sm:text-3xl flex justify-between items-center">
+                <h2 className="font-bold text-white text-2xl sm:text-3xl flex justify-between items-center">
                     {currState}
 
                     {isDataSubmitted && (
@@ -60,7 +61,7 @@ const LoginPage = () => {
                         type="text"
                         onChange={(e) => setfullName(e.target.value)}
                         value={fullName}
-                        className="p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="p-2 border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
                         placeholder="Full Name"
                         required
                     />
@@ -75,7 +76,7 @@ const LoginPage = () => {
                             type="email"
                             placeholder="Email Address"
                             required
-                            className="p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="p-2 border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
                         />
                         <div className="relative w-full">
                             <input
@@ -83,15 +84,15 @@ const LoginPage = () => {
                                 value={password}
                                 onChange={(e) => setpassword(e.target.value)}
                                 placeholder="Enter your password"
-                                className="p-2 w-full border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="p-2 w-full border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="text-sm absolute inset-y-0 right-2 flex items-center text-white-400"
                             >
-                                {showPassword ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-eye-off size-5 text-base-content/40"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path><path d="m2 2 20 20"></path></svg>
-                                    : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-eye size-5 text-base-content/40"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                {showPassword ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off size-5 text-[#8b6b39]"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path><path d="m2 2 20 20"></path></svg>
+                                    : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye size-5 text-[#8b6b39]"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 }
                             </button>
                         </div>
@@ -102,7 +103,7 @@ const LoginPage = () => {
                 {currState === 'Sign up' && isDataSubmitted && (
                     <textarea
                         rows={4}
-                        className="p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="p-2 border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
                         placeholder="Please provide a short bio..."
                         onChange={(e) => setbio(e.target.value)}
                         value={bio}
@@ -113,7 +114,8 @@ const LoginPage = () => {
                 <button
                     type="submit"
                     id="signInButton"
-                    className="py-3 bg-gradient-to-r from-purple-400 to-violet-600 text-white rounded-md cursor-pointer">
+                    style={{fontWeight: "semibold"}}
+                    className="py-3 bg-white text-black rounded-md cursor-pointer">
                     {currState === 'Sign up' ? 'Create Account' : 'Login Now'}
                 </button>
 
@@ -128,9 +130,9 @@ const LoginPage = () => {
                 {/* Switch */}
                 <div className='flex flex-col gap-2'>
                     {currState === 'Sign up' ? (
-                        <p className='text-sm text-gray-600'>Already have an Account? <span className='font-medium text-violet-500 cursor-pointer' onClick={() => { setcurrState("Login"); setisDataSubmitted(false) }}>Login here</span></p>
+                        <p className='text-sm text-[#b0833a]'>Already have an Account? <span className='font-medium text-white underline cursor-pointer' onClick={() => { setcurrState("Login"); setisDataSubmitted(false) }}>Login here</span></p>
                     ) : (
-                        <p className='text-sm text-gray-600'>Create an Account? <span className='font-medium text-violet-500 cursor-pointer' onClick={() => { setcurrState("Sign up") }}>Click here</span></p>
+                        <p className='text-sm text-[#b0833a]'>Create an Account? <span className='font-medium text-white underline cursor-pointer' onClick={() => { setcurrState("Sign up") }}>Click here</span></p>
                     )}
 
                 </div>

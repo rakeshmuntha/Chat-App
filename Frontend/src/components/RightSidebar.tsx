@@ -21,7 +21,7 @@ const RightSidebar = () => {
 
     return selectedUser && (
         // user profile
-        <div className={`bg-[#8185B2]/10 text-white w-full relative overflow-y-scroll ${selectedUser ? 'max-md:hidden' : 'hidden'}`}>
+        <div className={`bg-black border-l border-[#2f2d2d] text-white w-full relative overflow-y-scroll ${selectedUser ? 'max-md:hidden' : 'hidden'}`}>
             <div className='flex justify-end m-7'>
                 <svg onClick={() => toggleRightSideBar()} className="w-8 h-8 cursor-pointer hover:bg-gray-600 rounded-full p-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
@@ -39,7 +39,7 @@ const RightSidebar = () => {
                 <p className='text-center text-sm opacity-90'>{selectedUser?.bio}</p>
             </div>
 
-            <hr className='border-[#ffffff50] my-4' />
+            <hr className='border-[#2f2d2d] my-4' />
 
             <div className='px-5 text-base'>
                 {/* displaying all the images in the chat */}
@@ -53,8 +53,8 @@ const RightSidebar = () => {
                 </div>
             </div>
             {/* logout button */}
-            <button onClick={() => logout()} className='absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-400 to-violet-600 text-white border-none text-sm font-light py-2 px-20 rounded-full cursor-pointer'>
-                logout
+            <button onClick={() => logout()} className='absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-[#d49736] text-black border-none text-sm py-2 px-20 rounded-full cursor-pointer'>
+                Logout
             </button>
         </div>
     )

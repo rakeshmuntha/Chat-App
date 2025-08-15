@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+@import "tailwindcss";
+.logo{
+
+    font-family: "Outfit" ,sans-serif;
+}
+.input {
+    
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.input-bordered {
+    border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
+}
+.input {
+    flex-shrink: 1;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    line-height: 2;
+    line-height: 1.5rem;
+    border-radius: var(--rounded-btn, 0.5rem);
+    border-width: 1px;
+    border-color: transparent;
+    --tw-bg-opacity: 1;
+    background-color: var(--fallback-b1, oklch(var(--b1) / var(--tw-bg-opacity)));
+}

@@ -26,21 +26,29 @@ const Sidebar = () => {
     }, [onlineUsers]);
 
     return (
-        <div className={`bg-[#8185B2]/10 h-full p-5 rounded-xl overflow-y-scroll text-white flex flex-col justify-between ${selectedUser ? 'max-md:hidden' : ''}`}>
+        <div className={`bg-black border-r border-[#2f2d2d] h-full p-5 overflow-y-scroll text-white flex flex-col justify-between ${selectedUser ? 'max-md:hidden' : ''}`}>
             {/* Top section */}
             <div>
                 <div className='pb-5'>
                     <div className="flex justify-between items-center">
-                        <img src={assets.logo} alt="logo" className='max-w-40' />
+
+                        <div className='flex items-center gap-2'>
+                            {/* logo dude */}
+                            <div className='rounded-xl size-12 flex items-center justify-center bg-[#728bb5]/17 hover:bg-[#728bb5]/20'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-square w-7 max-w-full h-7 text-[#edecec]"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            </div>
+                            <h2 className='text-[#c88f33] font-sans font-semibold text-xl logo'>Blink Chat</h2>
+                        </div>
+
                         <img
-                            src={authUser?.profilePic || 'https://m.media-amazon.com/images/G/01/digital/AVATARS/LTUM_2024_PVProfileImageCircle_256x256_Sauron_Purple.png'}
+                            src={authUser?.profilePic || assets.avatar_icon}
                             alt="profile_martin"
                             className='w-9 h-9 rounded-full cursor-pointer'
                             onClick={() => navigate('/profile')}
                         />
                     </div>
 
-                    <div className='flex gap-4 p-3 mt-4 rounded-full bg-[#282142]/50'>
+                    <div className='flex gap-4 p-3 mt-4 rounded-full bg-[#302c25]/50'>
                         <img src={assets.search_icon} alt="search" className='w-4' />
                         <input
                             type="text"
@@ -59,7 +67,7 @@ const Sidebar = () => {
                                 setselectedUser(user);
                                 setunseenMessages((prev: any) => ({ ...prev, [user._id]: 0 }));
                             }}
-                            className={`relative flex items-center gap-2 p-2 pl-4 rounded cursor-pointer max-sm:text-sm ${selectedUser?._id === user._id && 'bg-[#282142]/50'}`}
+                            className={`relative flex items-center gap-2 p-2 pl-4 rounded cursor-pointer hover:bg-[#302c25]/30 max-sm:text-sm ${selectedUser?._id === user._id && 'bg-[#302c25]/40'}`}
                         >
                             <img src={user?.profilePic || assets.avatar_icon} alt="" className='w-[35px] aspect-[1/1] rounded-full' />
                             <div className="flex flex-col leading-5">
@@ -71,7 +79,7 @@ const Sidebar = () => {
                                 )}
                             </div>
                             {unseenMessages[user._id] > 0 && (
-                                <p className='absolute top-4 right-4 text-xs h-5 w-5 flex justify-center items-center rounded-full bg-violet-500/50'>
+                                <p className='absolute top-4 right-4 text-xs h-5 w-5 flex justify-center items-center rounded-full bg-[#c88f33]/60'>
                                     {unseenMessages[user._id]}
                                 </p>
                             )}
@@ -84,14 +92,14 @@ const Sidebar = () => {
             <div className='relative'>
 
                 {showSettings && (
-                    <div className='flex items-center bottom-full right-0 z-20 w-32 p-3 mb-2 rounded-2xl bg-[#282142] border border-gray-600 text-gray-100 cursor-pointer hover:bg-[#382d60]' onClick={() => logout()}>
-                        <svg className='w-5 h-5' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 4L18 4C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H14M3 12L15 12M3 12L7 8M3 12L7 16" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    <div className='flex items-center bottom-full right-0 z-20 w-32 p-3 mb-2 rounded-2xl bg-[#0e0b17] border border-gray-600 text-gray-100 cursor-pointer hover:bg-[#1e1c23]' onClick={() => logout()}>
+                        <svg className='w-5 h-5' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 4L18 4C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H14M3 12L15 12M3 12L7 8M3 12L7 16" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                         <p className='text-sm ml-2'>
                             Logout
                         </p>
                     </div>
                 )}
-                <div className='flex gap-1 items-center hover:text-purple-400'>
+                <div className='flex gap-1 text-[#c88f33] items-center hover:text-[#a77320]'>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

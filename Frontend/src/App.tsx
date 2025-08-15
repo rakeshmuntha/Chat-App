@@ -22,16 +22,16 @@ function App() {
     useEffect(() => {
         wakeBackend();
     }, [])
-    
+
 
     return (
-        <div className='bg-[url("/bgImage.svg")] bg-contain'>
-        {/* <div className='bg-black bg-contain'> */}
+        <div className={`${authUser ? 'bg-[#131313]' : 'bg-[#080606]'} bg-contain`}>
+            {/* // <div className='bg-[#080606] bg-contain'> */}
             <Toaster />
             <Routes>
-                <Route path='/' element={authUser ? <HomePage /> : <Navigate to={'/login'}/>} />
-                <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={currState === 'signup' ? '/profile' : '/'}/>} />
-                <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to={'/login'}/>} />
+                <Route path='/' element={authUser ? <HomePage /> : <Navigate to={'/login'} />} />
+                <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={currState === 'signup' ? '/profile' : '/'} />} />
+                <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to={'/login'} />} />
             </Routes>
         </div>
     )

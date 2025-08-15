@@ -9,6 +9,7 @@ export default {
       colors: {
         englishColor: "#F1E0AC", // custom color
         brandGreen: "#22C55E",
+                customDark: '#181616',
       },
     },
   },

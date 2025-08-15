@@ -11,8 +11,9 @@ const HomePage = () => {
     const { selectedUser, selectRightSidebar } = Chatcontext;
 
     return selectRightSidebar ? (
-        <div className='border w-full h-screen sm:px-[15%] sm:py-[5%]'>
-            <div className={`backdrop-blur-xl border-2 border-gray-600 rounded-2xl overflow-hidden h-[100%] grid grid-cols-1 relative 
+            // <div className='border w-full h-screen sm:px-[8%] sm:py-[3%]'>
+            <div className='border w-full h-screen px-[8%] py-[3%]'>
+                <div className={`backdrop-blur-xl bg-black border-[0.5px] border-[#2f2d2d] rounded-md overflow-hidden h-[100%] grid grid-cols-1 relative 
                 ${selectedUser ? 'md:grid-cols-[1fr_1.5fr_1fr] xl:grid-cols-[1fr_2fr_1fr]' : 'md:grid-cols-2'} `}>
                 <Sidebar />
                 <ChatContainer />
@@ -20,9 +21,9 @@ const HomePage = () => {
             </div>
         </div>)
         : (
-            <div className='border w-full h-screen sm:px-[15%] sm:py-[5%]'>
-                <div className={`backdrop-blur-xl border-2 border-gray-600 rounded-2xl overflow-hidden h-[100%] grid grid-cols-1 relative 
-                ${selectedUser ? 'md:grid-cols-[1fr_1.5fr] xl:grid-cols-[1fr_2fr]' : 'md:grid-cols-2'} `}>
+            <div className='border w-full h-screen px-[8%] py-[3%]'>
+                <div className={`backdrop-blur-xl bg-black border-[0.5px] border-[#2f2d2d] rounded-md overflow-hidden h-[100%] grid grid-cols-1 relative 
+                ${selectedUser ? 'md:grid-cols-[1fr_1.5fr] xl:grid-cols-[1fr_2fr]' : 'md:grid-cols-[1fr_1.4fr]'} `}>
                     <Sidebar />
                     <ChatContainer />
                 </div>
