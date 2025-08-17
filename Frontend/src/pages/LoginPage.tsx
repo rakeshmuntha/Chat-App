@@ -89,7 +89,7 @@ const LoginPage = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="text-sm absolute inset-y-0 right-2 flex items-center text-white-400"
+                                className="text-sm absolute inset-y-0 right-2 flex items-center text-white-400 cursor-pointer"
                             >
                                 {showPassword ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off size-5 text-[#8b6b39]"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path><path d="m2 2 20 20"></path></svg>
                                     : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye size-5 text-[#8b6b39]"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -115,7 +115,7 @@ const LoginPage = () => {
                     type="submit"
                     id="signInButton"
                     style={{fontWeight: "semibold"}}
-                    className="py-3 bg-white text-black rounded-md cursor-pointer">
+                    className="py-3 bg-white text-black rounded-md cursor-pointer hover:bg-white/90">
                     {currState === 'Sign up' ? 'Create Account' : 'Login Now'}
                 </button>
 
@@ -130,9 +130,9 @@ const LoginPage = () => {
                 {/* Switch */}
                 <div className='flex flex-col gap-2'>
                     {currState === 'Sign up' ? (
-                        <p className='text-sm text-[#b0833a]'>Already have an Account? <span className='font-medium text-white underline cursor-pointer' onClick={() => { setcurrState("Login"); setisDataSubmitted(false) }}>Login here</span></p>
+                        <p className='text-sm text-[#b0833a]'>Already have an Account? <span className='font-medium text-white underline cursor-pointer hover:text-white/90' onClick={() => { setcurrState("Login"); setisDataSubmitted(false) }}>Login here</span></p>
                     ) : (
-                        <p className='text-sm text-[#b0833a]'>Create an Account? <span className='font-medium text-white underline cursor-pointer' onClick={() => { setcurrState("Sign up") }}>Click here</span></p>
+                        <p className='text-sm text-[#b0833a]'>Create an Account? <span className='font-medium text-white underline cursor-pointer hover:text-white/90' onClick={() => { setcurrState("Sign up") }}>Click here</span></p>
                     )}
 
                 </div>

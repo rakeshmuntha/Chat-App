@@ -10,7 +10,7 @@ const RightSidebar = () => {
 
     const context = useContext(AuthContext);
     if (!context) throw new Error("AuthContext is missing. Make sure App is wrapped in AuthProvider.");
-    const { onlineUsers, logout } = context;
+    const { onlineUsers } = context;
     const [msgImages, setmsgImages] = useState([]);
 
     // Get all the images from the messages and set them to state
@@ -52,10 +52,6 @@ const RightSidebar = () => {
                     )}
                 </div>
             </div>
-            {/* logout button */}
-            <button onClick={() => logout()} className='absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-[#d49736] text-black border-none text-sm py-2 px-20 rounded-full cursor-pointer'>
-                Logout
-            </button>
         </div>
     )
 }
