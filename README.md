@@ -54,7 +54,7 @@ Blink Chat is a real-time chat web application that allows users to communicate 
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/rakeshmuntha/blink-chat.git
+   git clone https://github.com/rakeshmuntha/Chat-App
    ```
 
 2. **Run Backend and Frontend as described above.**
