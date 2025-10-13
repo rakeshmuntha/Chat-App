@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
     const [currState, setcurrState] = useState("Login");
@@ -9,6 +10,7 @@ const LoginPage = () => {
     const [bio, setbio] = useState('');
     const [isDataSubmitted, setisDataSubmitted] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const context = useContext(AuthContext);
     if (!context) throw new Error("AuthContext is missing. Make sure App is wrapped in AuthProvider.");
@@ -28,6 +30,10 @@ const LoginPage = () => {
         if (data) data.innerHTML = currState;
     }
 
+    const handleAnonymous = () => {
+        navigate('/anonymous');
+    }
+
     return (
         <div className="min-h-screen bg-cover bg-center flex items-center justify-center gap-8 sm:justify-evenly flex-col sm:flex-row backdrop-blur-2xl px-4 sm:px-8">
 
@@ -38,8 +44,15 @@ const LoginPage = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-square w-35 sm:w-60 md:w-70 max-w-full h-35 text-[#edecec]"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 </div>
                 <h2 className='text-[#c88f33] font-sans font-bold text-5xl logo'>Blink Chat</h2>
+
+                {/* Anonymous Chat */}
+                <div className='cursor-pointer flex justify-center items-center gap-2 text-white border-1 bg-white/4 font-sans font-semibold border-gray-500 p-4  rounded-lg shadow-lg' onClick={() => handleAnonymous()}>
+                    <h2 className='text-3xl logo'>Chat Anonymous</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-2 lucide lucide-shuffle-icon lucide-shuffle"><path d="m18 14 4 4-4 4" /><path d="m18 2 4 4-4 4" /><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22" /><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2" /><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45" /></svg>
+                </div>
+
             </div>
-                
+
             {/* right */}
             <form
                 onSubmit={onSubmitHandler}
@@ -50,7 +63,7 @@ const LoginPage = () => {
 
                     {isDataSubmitted && (
                         <svg onClick={() => setisDataSubmitted(false)} className="w-8 h-8 cursor-pointer hover:bg-gray-600 rounded-full p-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
                         </svg>
                     )}
                 </h2>
@@ -76,7 +89,7 @@ const LoginPage = () => {
                             type="email"
                             placeholder="Email Address"
                             required
-                        className="p-2 border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
+                            className="p-2 border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
                         />
                         <div className="relative w-full">
                             <input
@@ -84,7 +97,7 @@ const LoginPage = () => {
                                 value={password}
                                 onChange={(e) => setpassword(e.target.value)}
                                 placeholder="Enter your password"
-                        className="p-2 w-full border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
+                                className="p-2 w-full border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
                             />
                             <button
                                 type="button"
@@ -114,7 +127,7 @@ const LoginPage = () => {
                 <button
                     type="submit"
                     id="signInButton"
-                    style={{fontWeight: "semibold"}}
+                    style={{ fontWeight: "semibold" }}
                     className="py-3 bg-white text-black rounded-md cursor-pointer hover:bg-white/90">
                     {currState === 'Sign up' ? 'Create Account' : 'Login Now'}
                 </button>

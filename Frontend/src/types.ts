@@ -19,6 +19,7 @@ export type assetsType = {
     arrow_icon: string;
     code: string;
     profile_martin: string;
+    you: string
 }
 
 

@@ -20,6 +20,7 @@ import pic3 from './pic3.png'
 import pic4 from './pic4.png'
 import img1 from './img1.jpg'
 import img2 from './img2.jpg'
+import you from './you.png'
 
 import type {assetsType, userType, messageType} from '../types'
 
@@ -35,7 +36,8 @@ const assets: assetsType = {
     menu_icon,
     arrow_icon,
     code,
-    profile_martin
+    profile_martin,
+    you
 }
 
 export default assets;
