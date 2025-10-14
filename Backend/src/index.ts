@@ -29,6 +29,10 @@ io.on("connection", (socket) => {
     const userId = (socket.handshake.query?.userId as string) || null;
     const isAnonymous = (socket.handshake.query?.isAnonymous as string) === "true";
     const userName = (socket.handshake.query?.userName as string) || null;
+
+    console.log(userId);
+    console.log(isAnonymous);
+    console.log(userName);
     
     // === Logged-in user handling (existing) ===
     if (userId && !isAnonymous) {
