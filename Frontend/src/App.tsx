@@ -8,6 +8,7 @@ import { useContext, useEffect } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import axios from 'axios'
 import AnonymousPage from './pages/AnonymousPage'
+import StartPage from './pages/StartPage'
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
             {/* // <div className='bg-[#080606] bg-contain'> */}
             <Toaster />
             <Routes>
-                <Route path='/' element={authUser ? <HomePage /> : <Navigate to={'/login'} />} />
+                <Route path='/' element={authUser ? <HomePage /> : <StartPage />} />
                 <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={currState === 'signup' ? '/profile' : '/'} />} />
                 <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to={'/login'} />} />
                 <Route path='/anonymous' element={<AnonymousPage/>} />

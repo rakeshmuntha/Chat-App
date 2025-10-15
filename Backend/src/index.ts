@@ -11,54 +11,43 @@ import { Server } from 'socket.io';
 const app = express();
 const server = http.createServer(app);
 
-// initialize socket.io server 
 export const io = new Server(server, {
     cors: { origin: "*" }
 });
 
-// store online users (logged-in)
 export const userSoketMap: Record<string, string> = {}; // { userId: socketId }
 
-// anonymous structures
 const anonymousQueue: Array<any> = []; // queue of sockets waiting
 const anonymousPairs: Record<string, string> = {}; // { socketId: partnerSocketId }
 
-// socket.io connection handler
+
 io.on("connection", (socket) => {
-    // note: socket.handshake.query values are strings
+
     const userId = (socket.handshake.query?.userId as string) || null;
     const isAnonymous = (socket.handshake.query?.isAnonymous as string) === "true";
     const userName = (socket.handshake.query?.userName as string) || null;
-
-    console.log(userId);
-    console.log(isAnonymous);
-    console.log(userName);
     
-    // === Logged-in user handling (existing) ===
+    // if SignedIn
     if (userId && !isAnonymous) {
         console.log(`User connected ${userId} -> socket ${socket.id}`);
         userSoketMap[userId] = socket.id;
-        // broadcast online users
+        // emitting the online users
         io.emit("getOnlineUsers", Object.keys(userSoketMap));
     }
 
-    // === Anonymous user handling ===
+
     if (isAnonymous) {
         console.log(`Anonymous socket connected: ${socket.id} and userName: ${userName}`);
 
-        // push socket into waiting queue
         (socket as any).name = userName;
         anonymousQueue.push(socket);
 
-        // attempt to pair if >= 2 waiting
         tryPairAnonymousUsers();
     }
 
-    // === Shared events ===
-
-    // Anonymous message event (room-based)
+    // this will emit the message sent by the user to the room and the frontend
     socket.on("anonymous_message", ({ roomId, message }: { roomId: string, message: string }) => {
-        // broadcast to the room AND include senderSocketId so client can identify sender
+        // go to all the members in roomId
         io.to(roomId).emit("anonymous_message", {
             message,
             senderSocketId: socket.id,
@@ -66,16 +55,15 @@ io.on("connection", (socket) => {
         });
     });
 
-    // Optional: Allow a client to explicitly leave anonymous chat (e.g., "Exit" button)
+    // if any of the user leaves, this leaves the other user too
     socket.on("anonymous_leave", ({ roomId }: { roomId?: string }) => {
         handleAnonymousLeave(socket, roomId);
     });
 
-    // handle disconnect for both logged-in and anonymous
+    // if one user disconnected from the server disconnects the other user too
     socket.on("disconnect", (reason) => {
         console.log(`Socket disconnected ${socket.id} reason: ${reason}`);
 
-        // cleanup for logged-in
         if (userId && !isAnonymous) {
             delete userSoketMap[userId];
             io.emit("getOnlineUsers", Object.keys(userSoketMap));
@@ -83,20 +71,17 @@ io.on("connection", (socket) => {
 
         // cleanup for anonymous: remove from queue, notify partner
         if (isAnonymous) {
-            // remove from waiting queue (if present)
+
             const idx = anonymousQueue.findIndex((s) => s.id === socket.id);
             if (idx !== -1) anonymousQueue.splice(idx, 1);
 
-            // if paired, notify partner
+
             const partnerId = anonymousPairs[socket.id];
             if (partnerId) {
-                const partnerSocket = io.sockets.sockets.get(partnerId);
+                const partnerSocket = io.sockets.sockets.get(partnerId) as any;
                 if (partnerSocket) {
-                    partnerSocket.emit("anonymous_end", { reason: "Partner left" });
-                    // optionally force partner to leave room
-                    // You might want to cleanup partnerSocket.rooms manually if needed
+                    partnerSocket.emit("anonymous_end", { reason:`${partnerSocket.name} left` });
                 }
-                // delete both sides mapping
                 delete anonymousPairs[partnerId];
                 delete anonymousPairs[socket.id];
             }
@@ -104,11 +89,11 @@ io.on("connection", (socket) => {
     });
 });
 
-// ------------------------
-// Helper functions
-// ------------------------
+// ------------------------------------------------------------------------ HELPERS ------------------------------------------------------------------------------------------------ //
+
+// pairs 2 users
 function tryPairAnonymousUsers() {
-    // pair as many as possible (FIFO)
+
     while (anonymousQueue.length >= 2) {
         const user1 = anonymousQueue.shift();
         const user2 = anonymousQueue.shift();
@@ -119,15 +104,12 @@ function tryPairAnonymousUsers() {
         user1.join(roomId);
         user2.join(roomId);
 
-        // map partners for cleanup
         anonymousPairs[user1.id] = user2.id;
         anonymousPairs[user2.id] = user1.id;
 
-        // store current room on sockets (optional helpful flag)
         (user1 as any).currentAnonRoom = roomId;
         (user2 as any).currentAnonRoom = roomId;
 
-        // notify both clients
         user1.emit("anonymous_paired", { roomId, partnerSocketId: user2.id, partnerName: user2.name });
         user2.emit("anonymous_paired", { roomId, partnerSocketId: user1.id, partnerName: user1.name });
 
@@ -135,11 +117,12 @@ function tryPairAnonymousUsers() {
     }
 }
 
+// exits the room 
 function handleAnonymousLeave(socket: any, roomId?: string) {
-    // if roomId provided, use it, otherwise check socket.currentAnonRoom
+
     const rId = roomId || socket.currentAnonRoom;
     if (!rId) return;
-    // notify the room that chat is ending
+
     io.to(rId).emit("anonymous_end", { reason: `${socket.name} left`, by: socket.id });
 
     // find partner and cleanup maps
@@ -150,20 +133,17 @@ function handleAnonymousLeave(socket: any, roomId?: string) {
 
         const partnerSocket = io.sockets.sockets.get(partnerId);
         if (partnerSocket) {
-            // remove partner from room
+
             partnerSocket.leave(rId);
             (partnerSocket as any).currentAnonRoom = undefined;
         }
     }
 
-    // leave the room and cleanup
     socket.leave(rId);
     socket.currentAnonRoom = undefined;
 }
 
-// --------------------------------------------------
-// Express config & routes (kept from your original)
-// --------------------------------------------------
+
 app.use(express.json({ limit: "4mb" }));
 app.use(cors());
 

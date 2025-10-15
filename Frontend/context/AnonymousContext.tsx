@@ -71,6 +71,7 @@ export const AnonymousProvider = ({ children }: any) => {
             setMessages(prev => [...prev, { text: message, senderSocketId, createdAt }]);
         });
 
+        // this will ends the chat and sets setpaired to false(based on the paired variable only the chatcontaier displayed to user)
         anonSocket.on("anonymous_end", ({ reason }: any) => {
             console.log("Anonymous chat ended:", reason);
             toast.error(reason);
