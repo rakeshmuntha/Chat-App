@@ -41,6 +41,7 @@ io.on("connection", (socket) => {
 
         (socket as any).name = userName;
         anonymousQueue.push(socket);
+        changeOnline();
 
         tryPairAnonymousUsers();
     }
@@ -54,6 +55,17 @@ io.on("connection", (socket) => {
             createdAt: new Date().toISOString()
         });
     });
+
+    socket.on("pair_with_newUser", ({ roomId }: { roomId: string }) => {
+        console.log('hi ter');
+        handleAnonymousLeave(socket, roomId);
+        for(let i of anonymousQueue) {
+            if(i.id === socket.id) return socket.emit("already_queued", "You are already in Queue...Please Wait");
+        }
+
+        anonymousQueue.push(socket);
+        tryPairAnonymousUsers();
+    })
 
     // if any of the user leaves, this leaves the other user too
     socket.on("anonymous_leave", ({ roomId }: { roomId?: string }) => {
@@ -80,20 +92,26 @@ io.on("connection", (socket) => {
             if (partnerId) {
                 const partnerSocket = io.sockets.sockets.get(partnerId) as any;
                 if (partnerSocket) {
-                    partnerSocket.emit("anonymous_end", { reason:`${partnerSocket.name} left` });
+                    partnerSocket.emit("anonymous_end", { reason:`${(socket as any).name} Left` });
                 }
                 delete anonymousPairs[partnerId];
                 delete anonymousPairs[socket.id];
             }
         }
+        changeOnline();
     });
 });
 
 // ------------------------------------------------------------------------ HELPERS ------------------------------------------------------------------------------------------------ //
 
+function changeOnline() {
+    io.emit("online_queue", anonymousQueue.length + Object.keys(anonymousPairs).length);
+}
+
+
 // pairs 2 users
 function tryPairAnonymousUsers() {
-
+    changeOnline();
     while (anonymousQueue.length >= 2) {
         const user1 = anonymousQueue.shift();
         const user2 = anonymousQueue.shift();
@@ -122,9 +140,8 @@ function handleAnonymousLeave(socket: any, roomId?: string) {
 
     const rId = roomId || socket.currentAnonRoom;
     if (!rId) return;
-
-    io.to(rId).emit("anonymous_end", { reason: `${socket.name} left`, by: socket.id });
-
+    socket.emit("anonymous_end", {reason: "Starting new chat...Please Wait"});
+    
     // find partner and cleanup maps
     const partnerId = anonymousPairs[socket.id];
     if (partnerId) {
@@ -133,7 +150,7 @@ function handleAnonymousLeave(socket: any, roomId?: string) {
 
         const partnerSocket = io.sockets.sockets.get(partnerId);
         if (partnerSocket) {
-
+            partnerSocket.emit("anonymous_end", { reason: `${socket.name} Left`});
             partnerSocket.leave(rId);
             (partnerSocket as any).currentAnonRoom = undefined;
         }
@@ -141,6 +158,7 @@ function handleAnonymousLeave(socket: any, roomId?: string) {
 
     socket.leave(rId);
     socket.currentAnonRoom = undefined;
+    changeOnline();
 }
 
 

@@ -5,30 +5,29 @@ import RightSidebar from '../components/RightSidebar'
 import { ChatContext } from '../../context/ChatContext'
 
 const HomePage = () => {
-
     const Chatcontext = useContext(ChatContext);
     if (!Chatcontext) throw new Error("ChatContext is missing. Make sure App is wrapped in AuthProvider.");
     const { selectedUser, selectRightSidebar } = Chatcontext;
 
-    return selectRightSidebar ? (
-            // <div className='border w-full h-screen sm:px-[8%] sm:py-[3%]'>
-            <div className='border w-full h-screen px-[6%] sm:py-[3%]'>
-                <div className={`backdrop-blur-xl bg-black border-[0.5px] border-[#2f2d2d] rounded-md overflow-hidden h-[100%] grid grid-cols-1 relative 
-                ${selectedUser ? 'md:grid-cols-[1fr_1.5fr_1fr] xl:grid-cols-[1fr_2fr_1fr]' : 'md:grid-cols-2'} `}>
+    return (
+        <div className="w-full h-screen overflow-hidden bg-black flex items-center justify-center">
+            <div
+                className={`w-[94%] sm:w-[88%] h-[95vh] sm:h-[94vh] backdrop-blur-xl bg-black/70 border border-[#2f2d2d] rounded-md overflow-hidden grid grid-cols-1 relative
+                ${selectRightSidebar
+                    ? selectedUser
+                        ? 'md:grid-cols-[1fr_1.5fr_1fr] xl:grid-cols-[1fr_2fr_1fr]'
+                        : 'md:grid-cols-2'
+                    : selectedUser
+                        ? 'md:grid-cols-[1fr_1.5fr] xl:grid-cols-[1fr_2fr]'
+                        : 'md:grid-cols-[1fr_1.4fr]'
+                }`}
+            >
                 <Sidebar />
                 <ChatContainer />
-                <RightSidebar />
+                {selectRightSidebar && <RightSidebar />}
             </div>
-        </div>)
-        : (
-            <div className='border w-full h-screen px-[6%] sm:py-[3%]'>
-                <div className={`backdrop-blur-xl bg-black border-[0.5px] border-[#2f2d2d] rounded-md overflow-hidden h-[100%] grid grid-cols-1 relative 
-                ${selectedUser ? 'md:grid-cols-[1fr_1.5fr] xl:grid-cols-[1fr_2fr]' : 'md:grid-cols-[1fr_1.4fr]'} `}>
-                    <Sidebar />
-                    <ChatContainer />
-                </div>
-            </div>
-        )
+        </div>
+    )
 }
 
-export default HomePage
+export default HomePage;

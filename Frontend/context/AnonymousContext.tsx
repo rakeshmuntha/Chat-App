@@ -28,7 +28,11 @@ export interface AnonymousContextType {
     sendMessage: () => void;
     leaveChat: () => void;
     partnerName: string;
-    setpartnerName: React.Dispatch<React.SetStateAction<string>>
+    setpartnerName: React.Dispatch<React.SetStateAction<string>>;
+    buttonClick: ()=> void;
+    queueCount: number;
+    setmyName: React.Dispatch<React.SetStateAction<string>>;
+    myName: string
 }
 
 // axios, authUser, onlineUsers, socket, login, logout, updateProfile
@@ -41,12 +45,12 @@ export const AnonymousProvider = ({ children }: any) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [partnerName, setpartnerName] = useState("Anonymous11");
-    const [meName, setmeName] = useState("Me");
+    const [queueCount, setqueueCount] = useState(0);
+    const [myName, setmyName] = useState("ME");
 
     // call this when user clicks "Chat Anonymously"
     function startAnonymousChat(userName: string) {
         // create a new socket specifically for anonymous chat
-        setmeName(userName);
         const anonSocket = io(backendUrl, {
             query: { isAnonymous: "true", userName },
             transports: ["websocket"]
@@ -71,16 +75,27 @@ export const AnonymousProvider = ({ children }: any) => {
             setMessages(prev => [...prev, { text: message, senderSocketId, createdAt }]);
         });
 
+        
         // this will ends the chat and sets setpaired to false(based on the paired variable only the chatcontaier displayed to user)
         anonSocket.on("anonymous_end", ({ reason }: any) => {
             console.log("Anonymous chat ended:", reason);
-            toast.error(reason);
+            console.log(socket);
+            if(!socket) toast.error(reason);
+            else toast.error("you left the chat")
             // show message and cleanup UI if you want
             setPaired(false);
             setRoomId(null);
             // optionally close socket now or keep to queue for new pairing
-            anonSocket.disconnect();
-            setSocket(null);
+            // anonSocket.disconnect();
+            // setSocket(null);
+        });
+        
+        anonSocket.on("already_queued", (reason) => {
+            toast.error(reason);
+        })
+        
+        anonSocket.on("online_queue", (count: number) => {
+            setqueueCount(count);
         });
 
         anonSocket.on("disconnect", () => {
@@ -107,9 +122,17 @@ export const AnonymousProvider = ({ children }: any) => {
         setMessages([]);
     }
 
+    function buttonClick() {
+        console.log("hi thereradfasfasdfafaf");
+        if (!socket) return;
+        socket.emit("pair_with_newUser", { roomId });
+
+        setMessages([]);
+    }
+
     const value = {
         socket, setSocket, roomId, setRoomId, paired, setPaired, messages, setMessages, input, setInput,
-        startAnonymousChat, sendMessage, leaveChat, partnerName, setpartnerName
+        startAnonymousChat, sendMessage, leaveChat, partnerName, setpartnerName, buttonClick, queueCount, setmyName,myName
     }
 
     return (

@@ -7,21 +7,20 @@ const AnonymousPage = () => {
 
     const AC = useContext(AnonymousContext);
     if (!AC) throw new Error("AnonymousContext is missing. Make sure App is wrapped in AuthProvider.");
-    const { startAnonymousChat } = AC;
+    const { startAnonymousChat, myName } = AC;
 
     useEffect(() => {
-        const name = prompt("enter your name");
-        startAnonymousChat(name || "Ananonymus11");
+        startAnonymousChat(myName || "Anonymous11");
     }, []);
 
     return (
-        <div className='border w-full h-screen px-[6%] sm:py-[3%]'>
-            <div className={`backdrop-blur-xl bg-black border-[0.5px] border-[#2f2d2d] rounded-md overflow-hidden h-[100%] grid grid-cols-1 relative md:grid-cols-[1fr_2.5fr]`}>
+        <div className="w-full h-screen overflow-hidden bg-black flex items-center justify-center">
+            <div className="w-[94%] sm:w-[88%] h-[95vh] sm:h-[94vh] backdrop-blur-xl bg-black/70 border border-[#2f2d2d] rounded-md overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_3.5fr]">
                 <AnonymousSidebar />
                 <AnonymousChatContainer />
             </div>
         </div>
-    )
+    );
 }
 
 export default AnonymousPage;

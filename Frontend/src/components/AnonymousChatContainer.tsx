@@ -11,7 +11,7 @@ const ChatContainer = () => {
     const scrollEnd = useRef<HTMLDivElement | null>(null);
     const AC = useContext(AnonymousContext);
     if (!AC) throw new Error("AnonymousContext is missing. Make sure App is wrapped in AuthProvider.");
-    const { socket, paired, messages, input, setInput, sendMessage, leaveChat, partnerName } = AC;
+    const { socket, paired, messages, input, setInput, sendMessage, leaveChat, partnerName, buttonClick } = AC;
 
     const navigate = useNavigate();
 
@@ -51,14 +51,25 @@ const ChatContainer = () => {
                     <span className='w-2 h-2 rounded-full bg-green-500'></span>
                 </p>
 
+
+
+                <button onClick={buttonClick} className=" max-md:hidden rounded-lg flex items-center justify-center gap-1 cursor-pointer hover:text-[#c88f33]/90 text-sm text-[#c88f33] ">
+                    <svg stroke="currentColor" fill="none" stroke-width="3" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M16 16h5v5"></path></svg>
+                    <p className='text-base'>New Chat</p>
+                </button>
+
                 {/* TODO back button in small screen */}
                 <svg className="w-8 h-8 md:hidden max-w-9  cursor-pointer hover:bg-gray-600 rounded-full p-1 text-gray-800 dark:text-white" onClick={() => setshowExitButton(!showExitButton)} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
                 </svg>
 
-                {showExitButton && <div className='absolute md:hidden right-0 top-17 text-black bg-white hover:bg-white/90 cursor-pointer rounded-lg px-5 py-3'>
-                    <button className='cursor-pointer' onClick={() => { leaveChat(); navigate('/'); }}>
+                {showExitButton && <div className='absolute md:hidden flex flex-col bg-white/60 right-0 top-17 cursor-pointer rounded-lg px-5 py-3'>
+                    <button className='cursor-pointer py-2 px-2 rounded-lg hover:bg-white/50' onClick={() => { leaveChat(); navigate('/'); }}>
                         Leave Chat
+                    </button>
+                    <button className='cursor-pointer py-2 px-2 flex items-center justify-center gap-1 rounded-lg hover:bg-white/50' onClick={buttonClick}>
+                        <svg stroke="currentColor" fill="none" stroke-width="3" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M16 16h5v5"></path></svg>
+                        New Chat
                     </button>
                 </div>}
 
@@ -111,7 +122,7 @@ const ChatContainer = () => {
 
                     {/* gallery icon */}
                     <label htmlFor='image'>
-                        <svg xmlns="http://www.w3.org/2000/svg" onClick={() => {toast.error("Image sending feature is Disabled in Anonymous chats")}} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-white size-5 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" onClick={() => { toast.error("Image sending feature is Disabled in Anonymous chats") }} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-white size-5 cursor-pointer">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
                         </svg>
 
@@ -140,7 +151,17 @@ const ChatContainer = () => {
                 <div className='rounded-4xl size-27 flex items-center justify-center bg-[#728bb5]/10 hover:bg-[#728bb5]/20'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-square w-17 sm:w-60 md:w-70 max-w-full h-17 text-[#edecec]"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 </div>
-                <h2 className='text-[#c88f33] font-sans text-xl logo'>Pairing.. Please Wait</h2>
+
+                <div className='flex gap-2 items-center justify-center'>
+                    <div role="status">
+                        <svg aria-hidden="true" className="inline w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-[#c88f33]" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                        </svg>
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                    <h2 className='text-[#c88f33] font-sans text-xl logo'>Pairing.. Please Wait</h2>
+                </div>
             </div>
         </div>
     )
