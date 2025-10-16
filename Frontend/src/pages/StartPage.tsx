@@ -53,7 +53,7 @@ const StartPage = () => {
             {/* right */}
             <div className='mt-3 flex flex-col gap-6'>
                 <div
-                    className='cursor-pointer hover:bg-white/6 flex justify-center gap-2 items-center text-white border-1 bg-white/4 font-sans font-semibold border-[#513e21] p-8 max-sm:p-7 rounded-lg shadow-lg'
+                    className='cursor-pointer hover:bg-white/6 flex justify-center gap-2 items-center text-white border-1 bg-white/4 font-sans font-semibold border-gray-500 p-8 max-sm:p-7 rounded-lg shadow-lg'
                     onClick={handleAnonymousClick}
                 >
                     <h1 className='text-3xl max-sm:text-2xl logo'>Chat Anonymous</h1>
@@ -70,7 +70,7 @@ const StartPage = () => {
                 </div>
 
                 <div
-                    className='cursor-pointer hover:bg-white/6 flex justify-center gap-2 items-center text-white border-1 bg-white/4 font-sans font-semibold border-[#513e21] p-7 max-sm:p-6 rounded-lg shadow-lg'
+                    className='cursor-pointer hover:bg-white/6 flex justify-center gap-2 items-center text-white border-1 bg-white/4 font-sans font-semibold border-gray-500 p-8 max-sm:p-7 rounded-lg shadow-lg'
                     onClick={() => navigate('/login')}
                 >
                     <h2 className='text-3xl max-sm:text-2xl logo'>Sign up</h2>
