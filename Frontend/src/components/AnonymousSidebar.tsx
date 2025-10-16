@@ -47,7 +47,7 @@ const AnonymousSidebar = () => {
                 <div className="flex flex-col items-center justify-center text-center w-full">
 
                     <button onClick={buttonClick} className="mb-2 rounded-lg flex items-center justify-center gap-1 cursor-pointer hover:text-[#c88f33]/90 text-sm text-[#c88f33] ">
-                        <svg stroke="currentColor" fill="none" stroke-width="3" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M16 16h5v5"></path></svg>
+                        <svg stroke="currentColor" fill="none" strokeWidth="3" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M16 16h5v5"></path></svg>
                         <p className='text-base'>New Chat</p>
                     </button>
 
@@ -61,7 +61,7 @@ const AnonymousSidebar = () => {
             <div className='relative'>
                 {showSettings && (
                     <div className='flex items-center bottom-full z-20 w-32 p-3 mb-2 rounded-2xl bg-[#0e0b17] border border-gray-600 text-gray-100 absolute cursor-pointer hover:bg-[#1e1c23]' onClick={() => { leaveChat(); navigate('/'); }}>
-                        <svg className='w-5 h-5' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 4L18 4C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H14M3 12L15 12M3 12L7 8M3 12L7 16" stroke="#ffffff" strokeWidth="1.5" stroke-linecap="round" strokeLinejoin="round"></path> </g></svg>
+                        <svg className='w-5 h-5' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 4L18 4C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H14M3 12L15 12M3 12L7 8M3 12L7 16" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
                         <p className='text-sm ml-2'>
                             Leave chat
                         </p>
