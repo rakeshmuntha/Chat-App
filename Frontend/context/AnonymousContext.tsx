@@ -46,7 +46,7 @@ export const AnonymousProvider = ({ children }: any) => {
     const [input, setInput] = useState("");
     const [partnerName, setpartnerName] = useState("Anonymous11");
     const [queueCount, setqueueCount] = useState(0);
-    const [myName, setmyName] = useState("ME");
+    const [myName, setmyName] = useState("Anonymous11");
 
     // call this when user clicks "Chat Anonymously"
     function startAnonymousChat(userName: string) {

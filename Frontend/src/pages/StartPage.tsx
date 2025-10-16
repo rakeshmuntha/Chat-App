@@ -53,7 +53,7 @@ const StartPage = () => {
             {/* right */}
             <div className='mt-3 flex flex-col gap-6'>
                 <div
-                    className='cursor-pointer hover:bg-white/6 flex justify-center gap-2 items-center text-white border-1 bg-white/4 font-sans font-semibold border-gray-500 p-8 max-sm:p-7 rounded-lg shadow-lg'
+                    className='cursor-pointer hover:bg-white/6 flex justify-center gap-2 items-center text-white border-1 bg-white/4 font-sans font-semibold border-[#513e21] p-8 max-sm:p-7 rounded-lg shadow-lg'
                     onClick={handleAnonymousClick}
                 >
                     <h1 className='text-3xl max-sm:text-2xl logo'>Chat Anonymous</h1>
@@ -70,10 +70,10 @@ const StartPage = () => {
                 </div>
 
                 <div
-                    className='cursor-pointer hover:bg-white/6 flex justify-center items-center gap-2 text-white border-1 bg-white/4 font-sans font-semibold border-gray-500 p-7 max-sm:p-6 rounded-lg shadow-lg'
+                    className='cursor-pointer hover:bg-white/6 flex justify-center gap-2 items-center text-white border-1 bg-white/4 font-sans font-semibold border-[#513e21] p-7 max-sm:p-6 rounded-lg shadow-lg'
                     onClick={() => navigate('/login')}
                 >
-                    <h2 className='text-3xl max-sm:text-2xl logo'>Login</h2>
+                    <h2 className='text-3xl max-sm:text-2xl logo'>Sign up</h2>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"
                         className="lucide mt-1 lucide-circle-arrow-out-up-right-icon lucide-circle-arrow-out-up-right">
@@ -98,7 +98,7 @@ const StartPage = () => {
                                 setError('');
                             }}
                             placeholder="Type your name..."
-                            className="w-full p-3 bg-transparent border border-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-[#c88f33] placeholder-gray-400"
+                            className="w-full p-3 bg-transparent border-[1px] border-[#513e21] rounded-md focus:outline-none focus:ring-[2px] focus:ring-[#513e21]"
                             minLength={3}
                             required
                         />
