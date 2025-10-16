@@ -13,6 +13,7 @@ const db_1 = require("./lib/db");
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const messageRoutes_1 = __importDefault(require("./routes/messageRoutes"));
 const socket_io_1 = require("socket.io");
+const Visit_1 = require("./model/Visit");
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 exports.io = new socket_io_1.Server(server, {
@@ -139,8 +140,23 @@ app.use((0, cors_1.default)());
 app.use("/api/auth", userRoutes_1.default);
 app.use("/api/messages", messageRoutes_1.default);
 (0, db_1.connectDb)();
-app.get('/', (req, res) => {
-    res.json('Backend running!');
+app.get('/', async (req, res) => {
+    try {
+        let visit = await Visit_1.Visit.findOne();
+        if (!visit) {
+            visit = await Visit_1.Visit.create({ count: 1 });
+        }
+        else {
+            visit.count += 1;
+            visit.lastVisit = new Date();
+            await visit.save();
+        }
+        res.json({ message: 'Backend running!', visits: visit.count });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
 });
 // start server
 const PORT = process.env.PORT || 3001;

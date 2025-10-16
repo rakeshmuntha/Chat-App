@@ -7,6 +7,7 @@ import { connectDb } from './lib/db';
 import userRouter from './routes/userRoutes';
 import messageRouter from './routes/messageRoutes';
 import { Server } from 'socket.io';
+import { Visit } from './model/Visit';
 
 const app = express();
 const server = http.createServer(app);
@@ -26,7 +27,7 @@ io.on("connection", (socket) => {
     const userId = (socket.handshake.query?.userId as string) || null;
     const isAnonymous = (socket.handshake.query?.isAnonymous as string) === "true";
     const userName = (socket.handshake.query?.userName as string) || null;
-    
+
     // if SignedIn
     if (userId && !isAnonymous) {
         console.log(`User connected ${userId} -> socket ${socket.id}`);
@@ -59,8 +60,8 @@ io.on("connection", (socket) => {
     socket.on("pair_with_newUser", ({ roomId }: { roomId: string }) => {
         console.log('hi ter');
         handleAnonymousLeave(socket, roomId);
-        for(let i of anonymousQueue) {
-            if(i.id === socket.id) return socket.emit("already_queued", "You are already in Queue...Please Wait");
+        for (let i of anonymousQueue) {
+            if (i.id === socket.id) return socket.emit("already_queued", "You are already in Queue...Please Wait");
         }
 
         anonymousQueue.push(socket);
@@ -92,7 +93,7 @@ io.on("connection", (socket) => {
             if (partnerId) {
                 const partnerSocket = io.sockets.sockets.get(partnerId) as any;
                 if (partnerSocket) {
-                    partnerSocket.emit("anonymous_end", { reason:`${(socket as any).name} Left` });
+                    partnerSocket.emit("anonymous_end", { reason: `${(socket as any).name} Left` });
                 }
                 delete anonymousPairs[partnerId];
                 delete anonymousPairs[socket.id];
@@ -140,8 +141,8 @@ function handleAnonymousLeave(socket: any, roomId?: string) {
 
     const rId = roomId || socket.currentAnonRoom;
     if (!rId) return;
-    socket.emit("anonymous_end", {reason: "Starting new chat...Please Wait"});
-    
+    socket.emit("anonymous_end", { reason: "Starting new chat...Please Wait" });
+
     // find partner and cleanup maps
     const partnerId = anonymousPairs[socket.id];
     if (partnerId) {
@@ -150,7 +151,7 @@ function handleAnonymousLeave(socket: any, roomId?: string) {
 
         const partnerSocket = io.sockets.sockets.get(partnerId);
         if (partnerSocket) {
-            partnerSocket.emit("anonymous_end", { reason: `${socket.name} Left`});
+            partnerSocket.emit("anonymous_end", { reason: `${socket.name} Left` });
             partnerSocket.leave(rId);
             (partnerSocket as any).currentAnonRoom = undefined;
         }
@@ -171,8 +172,23 @@ app.use("/api/messages", messageRouter);
 
 connectDb();
 
-app.get('/', (req, res) => {
-    res.json('Backend running!');
+app.get('/', async (req, res) => {
+    try {
+        let visit = await Visit.findOne();
+
+        if (!visit) {
+            visit = await Visit.create({ count: 1 });
+        } else {
+            visit.count += 1;
+            visit.lastVisit = new Date();
+            await visit.save();
+        }
+
+        res.json({ message: 'Backend running!', visits: visit.count });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
 });
 
 // start server
